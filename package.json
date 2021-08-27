@@ -1,0 +1,25 @@
+{
+  "name": "next-spa-mpa-blueprint",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "test": "npm run test --workspaces",
+    "dev": "npx concurrently \"npm:dev:lib\" \"npm:dev:web\"",
+    "dev:web": "npm run dev -w web",
+    "dev:lib": "npm run dev -w lib"
+  },
+  "author": "",
+  "license": "MIT",
+  "workspaces": [
+    "./packages/lib",
+    "./packages/web"
+  ],
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
+}
