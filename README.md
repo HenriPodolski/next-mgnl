@@ -1,5 +1,5 @@
-### Issues
-* Not rendering labels in Magnolia page module with translation
+Nextjs, Incremental Static Site Generation with integration into Magnolia CE headless SPA integration
 
-### Resources
-https://www.npmjs.com/package/mgnl-tools
+### Issues
+
+* Not rendering labels in Magnolia page module with translation
