@@ -18,7 +18,7 @@
   "dependencies": {
     "@magnolia/react-editor": "^1.1.0-beta2",
     "cors": "^2.8.5",
-    "next": "11.1.0",
+    "next": "^11.1.2",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
     "next-transpile-modules": "^8.0.0",
