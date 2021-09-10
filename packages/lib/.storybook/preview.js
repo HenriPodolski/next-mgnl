@@ -1,4 +1,5 @@
 import * as nextImage from 'next/image';
+import * as nextLink from 'next/link';
 import '../styles/global.scss';
 
 export const parameters = {
@@ -35,4 +36,15 @@ Object.defineProperty(nextImage, 'default', {
         </div>
     )
   },
-})
+});
+
+// Replace next/link for Storybook
+Object.defineProperty(nextLink, 'default', {
+    configurable: true,
+    value: (props) => {
+        console.log('nextLink props', props);
+        return (
+            <a href="#">Link replacement</a>
+        )
+    },
+});
