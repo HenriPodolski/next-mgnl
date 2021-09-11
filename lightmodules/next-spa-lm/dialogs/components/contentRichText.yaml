@@ -1,0 +1,7 @@
+label: RichText Component
+form:
+  properties:
+    richtext:
+      label: RichText Field
+      required: true
+      $type: richTextField

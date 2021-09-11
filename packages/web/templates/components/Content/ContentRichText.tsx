@@ -1,15 +1,13 @@
 import React from 'react';
-import LibRichText from 'lib/components/RichText';
+import LibRichText from 'lib/components/RichText/RichText';
 
 type Props = {
-    richtext: string;
+  richtext: string;
 };
 
 const ContentRichText: React.FunctionComponent<Props> = (props: Props) => {
-    const { richtext } = props;
-    return (
-        <LibRichText content={richtext}></LibRichText>
-    );
+  const { richtext } = props;
+  return <LibRichText content={richtext}></LibRichText>;
 };
 
 export default ContentRichText;

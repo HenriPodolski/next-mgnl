@@ -1,0 +1,11 @@
+title: Home Template
+renderType: spa
+templateScript: /next-spa-lm/webresources/out/Home.html
+class: info.magnolia.rendering.spa.renderer.SpaRenderableDefinition
+
+areas:
+  main:
+    title: Main Area
+    availableComponents:
+      contentRichText:
+        id: next-spa-lm:components/contentRichText

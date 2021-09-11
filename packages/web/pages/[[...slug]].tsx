@@ -98,6 +98,12 @@ export async function getStaticProps({
     pageTemplateDefinitionsPath,
   });
 
+  const fetchInterval = parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10);
+  const previewFetchInterval = parseInt(
+    NEXTJS_PUBLIC_FETCH_INTERVAL || '0',
+    10
+  );
+
   return {
     props: {
       host: NEXTJS_HOST,
@@ -108,10 +114,10 @@ export async function getStaticProps({
       pageJsonPath,
       pageTemplateDefinitionsPath,
       currentPathname,
-      previewFetchInterval: parseInt(NEXTJS_PREVIEW_PUBLIC_INTERVAL || '0', 10),
-      fetchInterval: parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10),
+      previewFetchInterval,
+      fetchInterval,
     },
-    revalidate: 10,
+    revalidate: preview ? previewFetchInterval / 1000 : fetchInterval / 1000,
   };
 }
 

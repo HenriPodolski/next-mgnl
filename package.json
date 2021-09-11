@@ -6,7 +6,9 @@
   "scripts": {
     "test": "npm run test --workspaces",
     "dev": "npx concurrently \"npm:dev:lib\" \"npm:dev:web\"",
+    "dev:preview": "npx concurrently \"npm:dev:lib\" \"npm:dev:web:preview\"",
     "dev:web": "npm run dev -w web",
+    "dev:web:preview": "npm run dev:preview -w web",
     "dev:lib": "npm run dev -w lib"
   },
   "author": "",

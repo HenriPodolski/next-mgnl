@@ -7,13 +7,13 @@
     "dev": "npx next dev",
     "dev:preview": "cross-env MGNL_PREVIEW=true concurrently \"npm run dev\" \"npm run symlink:preview\" \"npm run download:preview\"",
     "download:preview": "npx wget http://localhost:3000/Home -d ./build/Home.html",
-    "symlink:preview": "npx mkdirp ./build && npx symlink-dir ./build ../../../cms/apache-tomcat-9.0.43/webapps/magnoliaAuthor/modules/main-lm/webresources/out",
+    "symlink:preview": "npx mkdirp ./build && npx symlink-dir ./build ../../../cms/apache-tomcat-9.0.43/webapps/magnoliaAuthor/modules/next-spa-lm/webresources/out",
     "build": "npx next build",
     "build:preview": "cross-env MGNL_PREVIEW=true npx next build",
     "start": "npx next start",
     "lint": "npx next lint",
     "export": "npm run build && npx next export",
-    "export:preview": "cross-env MGNL_PREVIEW_EXPORT=true MGNL_PREVIEW=true npm run build:preview && npx next export -o ../../../cms/apache-tomcat-9.0.43/webapps/magnoliaAuthor/modules/main-lm/webresources/out"
+    "export:preview": "cross-env MGNL_PREVIEW_EXPORT=true MGNL_PREVIEW=true npm run build:preview && npx next export -o ../../../cms/apache-tomcat-9.0.43/webapps/magnoliaAuthor/modules/next-spa-lm/webresources/out"
   },
   "dependencies": {
     "@magnolia/react-editor": "^1.1.0-beta2",

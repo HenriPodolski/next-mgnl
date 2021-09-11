@@ -1,0 +1,16 @@
+class: info.magnolia.rest.delivery.jcr.v2.JcrDeliveryEndpointDefinition
+workspace: website
+rootPath: /
+depth: -1
+bypassWorkspaceAcls: false
+systemProperties:
+  - mgnl:template
+nodeTypes:
+  - mgnl:page
+childNodeTypes:
+  - mgnl:area
+  - mgnl:component
+  - mgnl:contentNode
+  - mgnl:app
+referenceDepth: 3
+referenceRepeat: true
