@@ -2,4 +2,9 @@ Nextjs, Incremental Static Site Generation with integration into Magnolia CE hea
 
 ### Issues
 
-* Not rendering labels in Magnolia page module with translation
+* Integrate tailwind
+* Provide docker container
+* Lint
+* Check usage of next image, head and link in storybook
+* Pre-Commit hook
+* Provide documentation on how to setup
