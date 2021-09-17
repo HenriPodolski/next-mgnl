@@ -1,5 +1,5 @@
 import React from 'react';
-import LibRichText from 'lib/components/RichText/RichText';
+import { RichText } from 'lib';
 
 type Props = {
   richtext: string;
@@ -7,7 +7,7 @@ type Props = {
 
 const ContentRichText: React.FunctionComponent<Props> = (props: Props) => {
   const { richtext } = props;
-  return <LibRichText content={richtext}></LibRichText>;
+  return <RichText content={richtext}></RichText>;
 };
 
 export default ContentRichText;

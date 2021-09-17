@@ -2,16 +2,23 @@ import React from 'react';
 import Head from 'next/head';
 import styles from './index.module.scss';
 import pageConfig from '../magnolia.config';
-import { EditablePage, EditorContextHelper } from '@magnolia/react-editor';
+import { EditablePage } from '@magnolia/react-editor';
 import { useEffect, useState } from 'react';
 import AppContext from '../utils/hooks/context';
 import {
   buildMagnoliaDataPath,
+  getCleanCurrentPathName,
   getMagnoliaData,
 } from '../utils/magnolia-data-requests';
 import useSWR from 'swr';
 
-const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
+export async function fetcher<JSON = any>(
+  input: RequestInfo,
+  init?: RequestInit
+): Promise<JSON> {
+  const res = await fetch(input, init);
+  return res.json();
+}
 
 export default function Slug(props: any) {
   const {
@@ -20,14 +27,15 @@ export default function Slug(props: any) {
     preview,
     previewFetchInterval,
     fetchInterval,
+    authorPathPart,
   } = props;
-  const [pathname] = useState(
+  const environmentPathName =
     typeof window !== 'undefined' && window.location
       ? window.location.pathname
-      : currentPathname
-  );
-  const { data, error } = useSWR(`${host}/api${pathname}`, fetcher, {
-    initialData: props,
+      : currentPathname;
+  const pathname = getCleanCurrentPathName(environmentPathName, authorPathPart);
+  const { data, error } = useSWR(`${host}/api/${pathname}`, fetcher, {
+    fallbackData: preview ? null : props,
     refreshInterval: preview ? previewFetchInterval : fetchInterval,
   });
   const [state, setState] = useState({
@@ -42,17 +50,11 @@ export default function Slug(props: any) {
     });
   }, [data]);
 
-  useEffect(() => {
-    console.log(
-      'EditorContextHelper.inEditorPreview()',
-      EditorContextHelper.inEditorPreview(),
-      EditorContextHelper.inEditor()
-    );
-    window.addEventListener('message', (event) => {
-      if (!event.data || !(event.data && event.data.startsWith('{'))) return;
-      console.log(event);
-    });
-  }, []);
+  if (error) {
+    console.log('Error for path', pathname);
+    console.log(error);
+    return <pre>error {JSON.stringify(error, null, 4)}</pre>;
+  }
 
   return (
     <AppContext.Provider value={[state, setState]}>
@@ -82,7 +84,8 @@ export async function getStaticProps({
   const {
     NEXTJS_HOST,
     NEXTJS_PUBLIC_FETCH_INTERVAL,
-    NEXTJS_PREVIEW_PUBLIC_INTERVAL,
+    NEXTJS_PREVIEW_FETCH_INTERVAL,
+    MGNL_PATH_AUTHOR,
   } = process.env;
 
   const {
@@ -100,13 +103,14 @@ export async function getStaticProps({
 
   const fetchInterval = parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10);
   const previewFetchInterval = parseInt(
-    NEXTJS_PUBLIC_FETCH_INTERVAL || '0',
+    NEXTJS_PREVIEW_FETCH_INTERVAL || '0',
     10
   );
 
   return {
     props: {
       host: NEXTJS_HOST,
+      authorPathPart: MGNL_PATH_AUTHOR,
       pageJson,
       templateDefinitions,
       preview,
@@ -122,8 +126,12 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths({ locales, defaultLocale }: any) {
+  console.log('getStaticPaths locales, defaultLocale', locales, defaultLocale);
   // TODO: Get all existing pages and replace hard coded
-  const hardCodedPaths = [{ params: { slug: ['Home'] } }];
+  const hardCodedPaths = [
+    { params: { slug: ['Home'] } },
+    { params: { slug: ['Home', 'Test'] } },
+  ];
 
   return { paths: [...hardCodedPaths], fallback: false };
 }

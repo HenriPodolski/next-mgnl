@@ -9,6 +9,21 @@ export interface MagnoliaDataResponse<TPageJSON, TTemplateDef> {
   templateDefinitions?: TTemplateDef;
 }
 
+export function getCleanCurrentPathName(
+  currentPathname: string,
+  authorPathPart: string
+): string {
+  authorPathPart = (authorPathPart ? authorPathPart : '').replace(/^\//, '');
+  const cleanRegex = new RegExp(
+    `(?:(^\/)|(${authorPathPart})(\/)(.+)(\.html))`,
+    'gi'
+  );
+
+  currentPathname = currentPathname.replace(cleanRegex, '$4');
+
+  return currentPathname;
+}
+
 export function buildMagnoliaDataPath(slug: string[]) {
   const {
     MGNL_PREVIEW,
@@ -18,18 +33,11 @@ export function buildMagnoliaDataPath(slug: string[]) {
     MGNL_API_PAGES,
   } = process.env;
   const apiBase = `${MGNL_HOST}${MGNL_PREVIEW ? MGNL_PATH_AUTHOR : ''}`;
-  let currentPathname = slug
-    ? slug.map((slugParam: any) => slugParam.replace('.html', '')).join('/')
-    : '';
-
-  const authorPathPart = (MGNL_PATH_AUTHOR ? MGNL_PATH_AUTHOR : '').replace(
-    /^\//,
-    ''
+  let currentPathname = slug ? slug.join('/') : '';
+  currentPathname = getCleanCurrentPathName(
+    currentPathname,
+    MGNL_PATH_AUTHOR || ''
   );
-
-  currentPathname = currentPathname
-    .replace(authorPathPart, '')
-    .replace(/^\//, '');
 
   const pageJsonPath = `${MGNL_API_PAGES}/${currentPathname}`;
   let pageTemplateDefinitionsPath;
@@ -37,6 +45,8 @@ export function buildMagnoliaDataPath(slug: string[]) {
   if (MGNL_PREVIEW) {
     pageTemplateDefinitionsPath = MGNL_API_TEMPLATES;
   }
+
+  console.log('pageJsonPath', pageJsonPath);
 
   return {
     apiBase,
