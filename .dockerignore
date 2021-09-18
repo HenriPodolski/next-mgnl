@@ -1,0 +1,7 @@
+**/.git
+*Dockerfile*
+**/node_modules
+lightmodules
+**/.next
+**/build
+**/out

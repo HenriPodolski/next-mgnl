@@ -21,6 +21,7 @@
     "next": "^11.1.2",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
+    "next-secure-headers": "^2.2.0",
     "next-transpile-modules": "^8.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -47,7 +48,6 @@
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "mkdirp": "^1.0.4",
-    "next-secure-headers": "^2.2.0",
     "node-wget": "^0.4.3",
     "postcss": "^8.3.6",
     "prettier": "^2.4.0",
@@ -56,7 +56,7 @@
     "tailwindcss": "^2.2.15"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=16.4.2",
     "npm": ">=7.0.0"
   }
 }
