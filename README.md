@@ -13,7 +13,7 @@ Start Magnolia:
 Start Next Preview:
 npm run dev:web:preview
 
-### Issues
+### ToDo
 
 * Preview cookie is not being sent with useSwr when preview is called. Could help maybe?:
   import Cookies from 'universal-cookie'
@@ -25,7 +25,7 @@ null)
 const token = cookies.get('token')
 No it won't is this is not same domain devhost:3000 next, devhost:8080 Magnolia
 
-* Provide docker container (for getStaticProps server needs to be available during build time)
+* Provide docker container
 * Lint
 * Testing with snapshot image and code
 * Check usage of next image, head and link in storybook
