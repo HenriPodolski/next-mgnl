@@ -24,15 +24,10 @@ export function getCleanCurrentPathName(
   return currentPathname;
 }
 
-export function buildMagnoliaDataPath(slug: string[]) {
-  const {
-    MGNL_PREVIEW,
-    MGNL_HOST,
-    MGNL_PATH_AUTHOR,
-    MGNL_API_TEMPLATES,
-    MGNL_API_PAGES,
-  } = process.env;
-  const apiBase = `${MGNL_HOST}${MGNL_PREVIEW ? MGNL_PATH_AUTHOR : ''}`;
+export function buildMagnoliaDataPath(slug: string[], preview: boolean) {
+  const { MGNL_HOST, MGNL_PATH_AUTHOR, MGNL_API_TEMPLATES, MGNL_API_PAGES } =
+    process.env;
+  const apiBase = `${MGNL_HOST}${preview ? MGNL_PATH_AUTHOR : ''}`;
   let currentPathname = slug ? slug.join('/') : '';
   currentPathname = getCleanCurrentPathName(
     currentPathname,
@@ -42,7 +37,7 @@ export function buildMagnoliaDataPath(slug: string[]) {
   const pageJsonPath = `${MGNL_API_PAGES}/${currentPathname}`;
   let pageTemplateDefinitionsPath;
 
-  if (MGNL_PREVIEW) {
+  if (preview) {
     pageTemplateDefinitionsPath = MGNL_API_TEMPLATES;
   }
 

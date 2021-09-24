@@ -1,17 +1,20 @@
 const {
+  MGNL_PREVIEW,
   MGNL_HOST,
   MGNL_PREVIEW_EXPORT,
-  MGNL_PREVIEW,
   MGNL_PATH_AUTHOR,
   MGNL_RESOURCES_PATH,
   NEXTJS_PREVIEW_HOST,
 } = process.env;
 const withPlugins = require('next-compose-plugins');
 const withImages = require('next-images');
-const withTranspileModules = require('next-transpile-modules')(['lib'], {
-  debug: process.env.NODE_ENV !== 'production',
-  webpack5: true,
-});
+const withTranspileModules = require('next-transpile-modules')(
+  ['@next-mgnl/lib'],
+  {
+    debug: process.env.NODE_ENV !== 'production',
+    webpack5: true,
+  }
+);
 
 module.exports = withPlugins([withImages, withTranspileModules], {
   reactStrictMode: true,

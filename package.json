@@ -1,18 +1,19 @@
 {
-  "name": "next-spa-mpa-blueprint",
+  "name": "next-mgnl",
   "version": "0.0.2",
   "private": true,
   "description": "",
   "scripts": {
     "start": "npm run start:web",
-    "start:web": "npm run start -w web",
-    "build:web": "npm run build -w web",
+    "start:web": "npm run start -w @next-mgnl/web",
+    "build:web": "npm run build -w @next-mgnl/web",
+    "build:web:preview": "npm run build:preview -w @next-mgnl/web",
     "test": "npm run test --workspaces",
     "dev": "npx concurrently \"npm:dev:lib\" \"npm:dev:web\"",
     "dev:preview": "npx concurrently \"npm:dev:lib\" \"npm:dev:web:preview\"",
-    "dev:web": "npm run dev -w web",
-    "dev:web:preview": "npm run dev:preview -w web",
-    "dev:lib": "npm run dev -w lib"
+    "dev:web": "npm run dev -w @next-mgnl/web",
+    "dev:web:preview": "npm run dev:preview -w @next-mgnl/web",
+    "dev:lib": "npm run dev -w @next-mgnl/lib"
   },
   "author": "",
   "license": "MIT",

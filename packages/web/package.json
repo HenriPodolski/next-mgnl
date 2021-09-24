@@ -1,12 +1,12 @@
 {
-  "name": "web",
+  "name": "@next-mgnl/web",
   "version": "0.0.2",
   "private": true,
   "scripts": {
     "test": "",
     "dev": "npx next dev",
     "dev:preview": "cross-env MGNL_PREVIEW=true concurrently 'npm run dev' 'npm run symlink:preview' 'npm run download:preview'",
-    "download:preview": "npx wget http://localhost:3000/Home -d ./build/Home.html && npx wget http://localhost:3000/Home/Test -d ./build/Home/Test.html",
+    "download:preview": "npx wget http://localhost:3000/preview -d ./build/preview.html",
     "symlink:preview": "npx mkdirp ./build && env-cmd --no-override -f .env cross-env-shell 'npx symlink-dir ./build $MGNL_RESOURCES_DIR'",
     "build": "npx next build",
     "build:preview": "cross-env MGNL_PREVIEW=true npx next build",
@@ -26,9 +26,6 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "swr": "^1.0.1"
-  },
-  "resolutions": {
-    "react": "17.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

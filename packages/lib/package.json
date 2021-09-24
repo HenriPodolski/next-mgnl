@@ -1,11 +1,10 @@
 {
-  "name": "lib",
+  "name": "@next-mgnl/lib",
   "version": "0.0.2",
-  "main": "index.ts",
   "private": true,
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "npx start-storybook -p 6006",
+    "build-storybook": "npx build-storybook",
     "dev": "npm run storybook"
   },
   "dependencies": {
@@ -14,22 +13,18 @@
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
-  "resolutions": {
-    "react": "17.0.2"
-  },
   "devDependencies": {
     "@babel/core": "^7.15.0",
-    "@storybook/addon-actions": "^6.3.7",
-    "@storybook/addon-essentials": "^6.3.7",
-    "@storybook/addon-links": "^6.3.7",
+    "@storybook/addon-actions": "^6.3.8",
+    "@storybook/addon-essentials": "^6.3.8",
+    "@storybook/addon-links": "^6.3.8",
     "@storybook/addon-postcss": "^2.0.0",
-    "@storybook/builder-webpack5": "^6.3.7",
-    "@storybook/manager-webpack5": "^6.3.7",
+    "@storybook/builder-webpack5": "^6.3.8",
+    "@storybook/manager-webpack5": "^6.3.8",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^6.3.7",
     "@svgr/webpack": "^5.5.0",
-    "@tailwindcss/jit": "^0.1.18",
     "@types/react": "17.0.19",
     "autoprefixer": "^10.3.3",
     "babel-loader": "^8.2.2",

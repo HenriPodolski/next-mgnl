@@ -16,6 +16,7 @@ export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit
 ): Promise<JSON> {
+  console.log('fetcher', input, init);
   const res = await fetch(input, init);
   return res.json();
 }
@@ -34,8 +35,9 @@ export default function Slug(props: any) {
       ? window.location.pathname
       : currentPathname;
   const pathname = getCleanCurrentPathName(environmentPathName, authorPathPart);
+  console.log('useSWR for path', pathname, preview, `${host}/api/${pathname}`);
   const { data, error } = useSWR(`${host}/api/${pathname}`, fetcher, {
-    fallbackData: preview ? null : props,
+    fallbackData: props,
     refreshInterval: preview ? previewFetchInterval : fetchInterval,
   });
   const [state, setState] = useState({
@@ -51,7 +53,7 @@ export default function Slug(props: any) {
   }, [data]);
 
   if (error) {
-    console.log('Error for path', pathname);
+    console.log('Error for path', pathname, preview, `${host}/api/${pathname}`);
     console.log(error);
     return <pre>error {JSON.stringify(error, null, 4)}</pre>;
   }
@@ -93,7 +95,18 @@ export async function getStaticProps({
     currentPathname,
     pageJsonPath,
     pageTemplateDefinitionsPath,
-  } = buildMagnoliaDataPath(params && params.slug ? params.slug : null);
+  } = buildMagnoliaDataPath(
+    params && params.slug ? params.slug : null,
+    preview
+  );
+
+  console.log(
+    'getStaticProps',
+    preview,
+    apiBase,
+    pageJsonPath,
+    pageTemplateDefinitionsPath
+  );
 
   const { pageJson, templateDefinitions } = await getMagnoliaData({
     apiBase,
@@ -121,17 +134,14 @@ export async function getStaticProps({
       previewFetchInterval,
       fetchInterval,
     },
-    revalidate: preview ? previewFetchInterval / 1000 : fetchInterval / 1000,
+    revalidate: preview
+      ? previewFetchInterval / 1000 || false
+      : fetchInterval / 1000 || false,
   };
 }
 
 export async function getStaticPaths({ locales, defaultLocale }: any) {
   console.log('getStaticPaths locales, defaultLocale', locales, defaultLocale);
-  // TODO: Get all existing pages and replace hard coded
-  const hardCodedPaths = [
-    { params: { slug: ['Home'] } },
-    { params: { slug: ['Home', 'Test'] } },
-  ];
 
-  return { paths: [...hardCodedPaths], fallback: false };
+  return { paths: [], fallback: 'blocking' };
 }
