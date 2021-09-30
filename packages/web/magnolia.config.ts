@@ -4,7 +4,7 @@ import ContentRichText from './templates/components/Content/ContentRichText';
 export default {
   componentMappings: {
     // pages
-    'next-spa-lm:pages/home': Home,
+    'next-spa-lm:pages/next-spa-lm': Home,
     // content components
     'next-spa-lm:components/contentRichText': ContentRichText,
   },

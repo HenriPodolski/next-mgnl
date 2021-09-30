@@ -1,5 +1,5 @@
 import React from 'react';
-import LibRichText from 'lib/components/RichText/RichText';
+import LibRichText from '@next-mgnl/lib/components/RichText/RichText';
 
 type Props = {
   richtext: string;

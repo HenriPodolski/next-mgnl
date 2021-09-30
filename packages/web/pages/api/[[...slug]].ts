@@ -1,40 +1,34 @@
 import Cors from 'cors';
+import { NextApiRequest, NextApiResponse } from 'next';
 import {
   buildMagnoliaDataPath,
   getMagnoliaData,
 } from '../../utils/magnolia-data-requests';
+import { runAPIMiddleware } from '../../utils/run-api-middleware';
 
 const cors = Cors({
   methods: ['GET', 'HEAD'],
 });
 
-function runMiddleware(
-  req: any,
-  res: any,
-  fn: (arg0: any, arg1: any, arg2: (result: any) => void) => void
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-
-      return resolve(result);
-    });
-  });
-}
-
-export default async function handler(req: any, res: any) {
-  const { MGNL_PREVIEW, NEXTJS_HOST } = process.env;
-  await runMiddleware(req, res, cors);
+  const { NEXTJS_HOST } = process.env;
+  await runAPIMiddleware(req, res, cors);
   const { slug } = req.query;
+  const preview = Boolean(process.env.MGNL_PREVIEW);
+
+  if (preview) {
+    res.setPreviewData({});
+  }
 
   const {
     apiBase,
     currentPathname,
     pageJsonPath,
     pageTemplateDefinitionsPath,
-  } = buildMagnoliaDataPath(slug);
+  } = buildMagnoliaDataPath(typeof slug === 'string' ? [slug] : slug, preview);
 
   const { pageJson, templateDefinitions } = await getMagnoliaData({
     apiBase,
@@ -46,7 +40,7 @@ export default async function handler(req: any, res: any) {
     host: NEXTJS_HOST,
     pageJson,
     templateDefinitions,
-    preview: MGNL_PREVIEW,
+    preview,
     apiBase,
     pageJsonPath,
     pageTemplateDefinitionsPath,
