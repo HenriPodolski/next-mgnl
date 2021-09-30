@@ -11,9 +11,7 @@
     "build": "npx next build",
     "build:preview": "cross-env MGNL_PREVIEW=true npx next build",
     "start": "npx next start",
-    "lint": "npx next lint",
-    "export": "cross-env-shell MGNL_PREVIEW=true 'npm run build && npx next export'",
-    "export:preview": "npm run build:preview && env-cmd --no-override -f .env cross-env-shell MGNL_PREVIEW_EXPORT=true MGNL_PREVIEW=true 'npx next export -o $MGNL_RESOURCES_DIR'"
+    "lint": "npx next lint"
   },
   "dependencies": {
     "@magnolia/react-editor": "^1.1.0-beta2",
@@ -54,6 +52,6 @@
   },
   "engines": {
     "node": ">=16.4.2",
-    "npm": ">=7.0.0"
+    "npm": ">=7.18.1"
   }
 }

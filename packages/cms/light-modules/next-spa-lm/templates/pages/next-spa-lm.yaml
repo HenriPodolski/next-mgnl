@@ -1,6 +1,6 @@
-title: Home Template
+title: Next SPA LightModule Base Template
 renderType: spa
-templateScript: /next-spa-lm/webresources/out/Home.html
+templateScript: /next-spa-lm/webresources/out/preview.html
 class: info.magnolia.rendering.spa.renderer.SpaRenderableDefinition
 
 areas:

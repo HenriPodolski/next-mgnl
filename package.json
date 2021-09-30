@@ -4,28 +4,40 @@
   "private": true,
   "description": "",
   "scripts": {
+    "jumpstart": "npm run postinstall -w @next-mgnl/cms",
     "start": "npm run start:web",
     "start:web": "npm run start -w @next-mgnl/web",
     "build:web": "npm run build -w @next-mgnl/web",
     "build:web:preview": "npm run build:preview -w @next-mgnl/web",
     "test": "npm run test --workspaces",
-    "dev": "npx concurrently \"npm:dev:lib\" \"npm:dev:web\"",
+    "dev": "npx concurrently \"npm:dev:lib\" \"npm:dev:web:preview\" \"npm:dev:cms\"",
+    "stop": "npm run stop -w @next-mgnl/cms",
     "dev:preview": "npx concurrently \"npm:dev:lib\" \"npm:dev:web:preview\"",
     "dev:web": "npm run dev -w @next-mgnl/web",
     "dev:web:preview": "npm run dev:preview -w @next-mgnl/web",
+    "dev:cms": "npm run dev -w @next-mgnl/cms",
     "dev:lib": "npm run dev -w @next-mgnl/lib"
   },
-  "author": "",
+  "author": "Henri Podolski",
   "license": "MIT",
   "workspaces": [
     "./packages/lib",
-    "./packages/web"
+    "./packages/web",
+    "packages/cms"
   ],
   "devDependencies": {
     "concurrently": "^6.2.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HenriPodolski/next-mgnl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HenriPodolski/next-mgnl/issues"
+  },
+  "homepage": "https://github.com/HenriPodolski/next-mgnl#readme",
   "engines": {
     "node": ">=16.4.2",
-    "npm": ">=7.0.0"
+    "npm": ">=7.18.1"
   }
 }

@@ -2,29 +2,26 @@ Nextjs, Incremental Static Site Generation with Magnolia CE headless SPA integra
 
 ### Install
 
+Install node version manager: https://github.com/nvm-sh/nvm
+
 ```bash
 nvm use 
-npm i --legacy-peer-deps
+npm i
+npm run jumpstart
 ```
 
-Start Magnolia:
-./magnolia_control.sh start --ignore-open-files-limit && tail -f ../logs/catalina.out
-
-Start Next Preview:
-npm run dev:web:preview
+Start Dev within Magnolia preview and Nextjs, Storybook:
+```bash
+npm run dev
+```
+To stop dev: Ctrl + C and:
+```bash
+npm run stop
+```
 
 ### ToDo
-
 * Preview cookie is not being sent with useSwr when preview is called. Could help maybe?:
   import Cookies from 'universal-cookie'
-
-...
-
-export async function getServerSideProps() { const cookies = new Cookies(context.req ? context.req.headers.cookie :
-null)
-const token = cookies.get('token')
-No it won't is this is not same domain devhost:3000 next, devhost:8080 Magnolia
-
 * Provide docker container
 * Lint
 * Testing with snapshot image and code

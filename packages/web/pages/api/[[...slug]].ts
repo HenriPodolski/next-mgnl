@@ -19,7 +19,9 @@ export default async function handler(
   const { slug } = req.query;
   const preview = Boolean(process.env.MGNL_PREVIEW);
 
-  console.log('handle preview', process.env.NODE_ENV, req.headers.cookie);
+  if (preview) {
+    res.setPreviewData({});
+  }
 
   const {
     apiBase,
