@@ -2,6 +2,7 @@ import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   buildMagnoliaDataPath,
+  getAcceptLang,
   getMagnoliaData,
 } from '../../utils/magnolia-data-requests';
 import { runAPIMiddleware } from '../../utils/run-api-middleware';
@@ -14,10 +15,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { NEXTJS_HOST } = process.env;
+  const { NEXTJS_HOST, MGNL_LANGUAGES } = process.env;
   await runAPIMiddleware(req, res, cors);
   const { slug } = req.query;
   const preview = Boolean(process.env.MGNL_PREVIEW);
+  const languages =
+    MGNL_LANGUAGES && MGNL_LANGUAGES.split(' ').length
+      ? MGNL_LANGUAGES.split(' ')
+      : ['en'];
 
   if (preview) {
     res.setPreviewData({});
@@ -28,12 +33,22 @@ export default async function handler(
     currentPathname,
     pageJsonPath,
     pageTemplateDefinitionsPath,
-  } = buildMagnoliaDataPath(typeof slug === 'string' ? [slug] : slug, preview);
+  } = buildMagnoliaDataPath(
+    typeof slug === 'string' ? [slug] : slug,
+    preview,
+    languages
+  );
+
+  const acceptLanguage =
+    (req.headers['accept-language'] as string) || getAcceptLang('en');
+
+  console.log('acceptLanguage', acceptLanguage);
 
   const { pageJson, templateDefinitions } = await getMagnoliaData({
     apiBase,
     pageJsonPath,
     pageTemplateDefinitionsPath,
+    acceptLanguage,
   });
 
   res.status(200).json({
@@ -45,5 +60,6 @@ export default async function handler(
     pageJsonPath,
     pageTemplateDefinitionsPath,
     currentPathname,
+    languages,
   });
 }

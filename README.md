@@ -22,7 +22,7 @@ npm run stop
 ### ToDo
 * Preview cookie is not being sent with useSwr when preview is called. Could help maybe?:
   import Cookies from 'universal-cookie'
-* Provide docker container
+* Provide docker container for CMS
 * Lint
 * Testing with snapshot image and code
 * Check usage of next image, head and link in storybook
