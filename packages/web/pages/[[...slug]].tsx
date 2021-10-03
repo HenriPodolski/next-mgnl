@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import AppContext from '../utils/hooks/context';
 import {
   buildMagnoliaDataPath,
-  getCleanCurrentPathName,
+  getAcceptLang,
+  getCleanCurrentPathParts,
   getMagnoliaData,
 } from '../utils/magnolia-data-requests';
 import useSWR from 'swr';
@@ -16,7 +17,6 @@ export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit
 ): Promise<JSON> {
-  console.log('fetcher', input, init);
   const res = await fetch(input, init);
   return res.json();
 }
@@ -29,17 +29,37 @@ export default function Slug(props: any) {
     previewFetchInterval,
     fetchInterval,
     authorPathPart,
+    languages,
   } = props;
   const environmentPathName =
     typeof window !== 'undefined' && window.location
       ? window.location.pathname
       : currentPathname;
-  const pathname = getCleanCurrentPathName(environmentPathName, authorPathPart);
-  console.log('useSWR for path', pathname, preview, `${host}/api/${pathname}`);
-  const { data, error } = useSWR(`${host}/api/${pathname}`, fetcher, {
-    fallbackData: props,
-    refreshInterval: preview ? previewFetchInterval : fetchInterval,
-  });
+  const { pathname, language } = getCleanCurrentPathParts(
+    environmentPathName,
+    authorPathPart,
+    languages
+  );
+  console.log(
+    'useSWR for path',
+    pathname,
+    preview,
+    language,
+    `${host}/api/${pathname}`
+  );
+  const { data, error } = useSWR(
+    `${host}/api/${pathname}`,
+    (input: RequestInfo) =>
+      fetcher(input, {
+        headers: {
+          'Accept-Language': getAcceptLang(language),
+        },
+      }),
+    {
+      fallbackData: props,
+      refreshInterval: preview ? previewFetchInterval : fetchInterval,
+    }
+  );
   const [state, setState] = useState({
     ...props,
     pageConfig,
@@ -88,20 +108,29 @@ export async function getStaticProps({
     NEXTJS_PUBLIC_FETCH_INTERVAL,
     NEXTJS_PREVIEW_FETCH_INTERVAL,
     MGNL_PATH_AUTHOR,
+    MGNL_LANGUAGES,
   } = process.env;
+
+  const languages =
+    MGNL_LANGUAGES && MGNL_LANGUAGES.split(' ').length
+      ? MGNL_LANGUAGES.split(' ')
+      : ['en'];
 
   const {
     apiBase,
     currentPathname,
+    language,
     pageJsonPath,
     pageTemplateDefinitionsPath,
   } = buildMagnoliaDataPath(
     params && params.slug ? params.slug : null,
-    preview
+    preview,
+    languages
   );
 
   console.log(
     'getStaticProps',
+    params && params.slug ? params.slug : null,
     preview,
     apiBase,
     pageJsonPath,
@@ -112,6 +141,7 @@ export async function getStaticProps({
     apiBase,
     pageJsonPath,
     pageTemplateDefinitionsPath,
+    acceptLanguage: getAcceptLang(language),
   });
 
   const fetchInterval = parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10);
@@ -131,6 +161,7 @@ export async function getStaticProps({
       pageJsonPath,
       pageTemplateDefinitionsPath,
       currentPathname,
+      languages,
       previewFetchInterval,
       fetchInterval,
     },

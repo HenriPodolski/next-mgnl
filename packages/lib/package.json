@@ -8,6 +8,7 @@
     "dev": "npm run storybook"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.4.1",
     "classnames": "^2.3.1",
     "next": "11.1.2",
     "react": "17.0.2",

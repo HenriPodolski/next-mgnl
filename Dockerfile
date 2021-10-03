@@ -4,14 +4,14 @@ FROM mhart/alpine-node:16.4.2 AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json packages/web/package.json packages/lib/package.json ./
-RUN npm i --legacy-peer-deps
+RUN npm i
 
 # Rebuild the source code only when needed
 FROM mhart/alpine-node:16.4.2 AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-RUN npm run build:web && npm i --legacy-peer-deps --production --ignore-scripts --prefer-offline
+RUN npm run build:web && npm i --production --ignore-scripts --prefer-offline
 
 # Production image, copy all the files and run next
 FROM mhart/alpine-node:16.4.2 AS runner

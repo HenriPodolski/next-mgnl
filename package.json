@@ -23,7 +23,7 @@
   "workspaces": [
     "./packages/lib",
     "./packages/web",
-    "packages/cms"
+    "./packages/cms"
   ],
   "devDependencies": {
     "concurrently": "^6.2.1"
