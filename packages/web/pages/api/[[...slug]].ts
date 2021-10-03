@@ -42,8 +42,6 @@ export default async function handler(
   const acceptLanguage =
     (req.headers['accept-language'] as string) || getAcceptLang('en');
 
-  console.log('acceptLanguage', acceptLanguage);
-
   const { pageJson, templateDefinitions } = await getMagnoliaData({
     apiBase,
     pageJsonPath,
