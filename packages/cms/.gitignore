@@ -1,3 +1,16 @@
 node_modules
 apache-tomcat
 downloads
+
+.DS_Store
+target
+overlays
+*.iml
+*.ipr
+*.iws
+*.log
+.idea
+.project
+.classpath
+.settings
+.checkstyle

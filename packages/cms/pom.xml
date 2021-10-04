@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.henripodolski.next-mgnl</groupId>
+    <artifactId>next-mgnl-magnolia-docker-bundle-parent</artifactId>
+    <name>next-mgnl Magnolia Docker Image Bundle (parent pom)</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <magnoliaBundleVersion>6.2.12</magnoliaBundleVersion>
+        <javaVersion>11</javaVersion>
+        <docker-image-name>magnolia-docker</docker-image-name>
+        <docker-plugin.version>0.33.0</docker-plugin.version>
+        <github-registry>HenriPodolski/next-mgnl</github-registry>
+        <lightmodule-name>next-mgnl-lightmodules</lightmodule-name>
+    </properties>
+
+    <modules>
+        <module>webapp</module>
+        <module>next-mgnl-lightmodules</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Importing dependencyManagement of magnolia-bundle-parent: Includes empty-webapp and community-webapp dependencies.-->
+            <dependency>
+                <groupId>info.magnolia.bundle</groupId>
+                <artifactId>magnolia-bundle-parent</artifactId>
+                <version>${magnoliaBundleVersion}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>${javaVersion}</source>
+                    <target>${javaVersion}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker-plugin.version}</version>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>ghcr.io/${github-registry}/magnolia-docker/${docker-image-name}</name>
+                                <alias>dockerfile</alias>
+                                <build>
+                                    <contextDir>${project.basedir}</contextDir>
+                                    <dockerFile>src/main/docker/Dockerfile</dockerFile>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>magnolia</id>
+            <url>https://nexus.magnolia-cms.com/content/repositories/magnolia.public.releases/</url>
+        </repository>
+        <repository>
+            <id>magnolia-third-party</id>
+            <url>https://nexus.magnolia-cms.com/content/repositories/thirdparty.customized/</url>
+        </repository>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
+</project>

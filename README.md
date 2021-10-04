@@ -34,8 +34,7 @@ docker rm next-mgnl-web
 ```
 
 ### ToDo
-* Resolving package by name does not work for builds triggered from workspace root
-* Provide docker container for CMS
+* Provide docker container for CMS, add lightmodules and options for DB to it
 * Lint
 * Testing with snapshot image and code
 * Check usage of next image, head and link in storybook

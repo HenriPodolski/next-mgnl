@@ -1,7 +1,7 @@
 **/.git
 *Dockerfile*
 **/node_modules
-lightmodules
+packages/cms
 **/.next
 **/build
 **/out

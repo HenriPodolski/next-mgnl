@@ -174,5 +174,5 @@ export async function getStaticProps({
 export async function getStaticPaths({ locales, defaultLocale }: any) {
   console.log('getStaticPaths locales, defaultLocale', locales, defaultLocale);
 
-  return { paths: [], fallback: 'blocking' };
+  return { paths: ['preview'], fallback: 'blocking' };
 }
