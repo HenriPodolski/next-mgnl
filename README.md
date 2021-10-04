@@ -19,9 +19,22 @@ To stop dev: Ctrl + C and:
 npm run stop
 ```
 
+### Docker
+Build web frontend:
+```bash
+docker build . -t next-mgnl-web 
+```
+Run frontend for preview (local dev):
+```bash
+docker run -p 0.0.0.0:3000:3000 --net host --name next-mgnl-web -it -e MGNL_PREVIEW="true" next-mgnl-web 
+```
+Remove:
+```bash
+docker rm next-mgnl-web 
+```
+
 ### ToDo
-* Preview cookie is not being sent with useSwr when preview is called. Could help maybe?:
-  import Cookies from 'universal-cookie'
+* Resolving package by name does not work for builds triggered from workspace root
 * Provide docker container for CMS
 * Lint
 * Testing with snapshot image and code
