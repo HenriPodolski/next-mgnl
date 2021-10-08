@@ -44,3 +44,4 @@ docker rm next-mgnl-web
 - [ ] Check usage of next image, head and link in storybook
 - [ ] Pre-Commit hook
 - [ ] Provide documentation on how to setup
+- [ ] Log nextjs logs into Magnolia 
