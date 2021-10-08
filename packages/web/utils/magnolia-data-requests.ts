@@ -109,6 +109,7 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
     headers: {
       'accept-language': acceptLanguage,
     },
+    credentials: 'include',
   });
   let templateDefinitions;
   const pageJson = await response.json();
@@ -117,7 +118,10 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
     response = await fetch(
       `${apiBase}${pageTemplateDefinitionsPath}` +
         '/' +
-        pageJson['mgnl:template']
+        pageJson['mgnl:template'],
+      {
+        credentials: 'include',
+      }
     );
     templateDefinitions = await response.json();
   }

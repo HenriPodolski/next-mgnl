@@ -1,4 +1,5 @@
-Nextjs, Incremental Static Site Generation with Magnolia CE headless SPA integration
+# next-mgnl
+Blueprint: Nextjs, Incremental Static Site Generation with Magnolia CE headless SPA integration
 
 ### Install
 
@@ -34,7 +35,9 @@ docker rm next-mgnl-web
 ```
 
 ### ToDo
-* Provide docker container for CMS, add lightmodules and options for DB to it
+* If error occurs in useSWR the page needs to render the error page
+* Check and provide typescript typings (replace unknown, any types for possible)
+* Provide options for DB to mgnl docker image (maybe helpful: https://github.com/nicolasbarbe/magnolia-docker)
 * Lint
 * Testing with snapshot image and code
 * Check usage of next image, head and link in storybook
