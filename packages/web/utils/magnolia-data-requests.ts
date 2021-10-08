@@ -15,7 +15,6 @@ export function getCleanCurrentPathParts(
   authorPathPart: string,
   languages: string[]
 ): { pathname: string; language: string } {
-  console.log('languages', languages);
   let language = languages[0];
   authorPathPart = (authorPathPart ? authorPathPart : '').replace(/^\//, '');
   const cleanRegex = new RegExp(

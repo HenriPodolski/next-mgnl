@@ -26,11 +26,12 @@ export default async function handler(
       ? MGNL_LANGUAGES.split(' ')
       : ['en'];
 
-  // TODO: Pass cookie correctly instead of this
+  // TODO: Cookie should be attached correctly to the mgnl host instead of this:
+  // Not able to serve the public instance if it is like that...
   if (req.headers.origin === process.env.MGNL_HOST) {
     console.log(
       'Workaround for cookie not being passed applied',
-      req.headers,
+      req.cookies,
       req.preview,
       req.url
     );
