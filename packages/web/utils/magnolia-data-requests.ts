@@ -15,7 +15,6 @@ export function getCleanCurrentPathParts(
   authorPathPart: string,
   languages: string[]
 ): { pathname: string; language: string } {
-  console.log('languages', languages);
   let language = languages[0];
   authorPathPart = (authorPathPart ? authorPathPart : '').replace(/^\//, '');
   const cleanRegex = new RegExp(
@@ -109,6 +108,7 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
     headers: {
       'accept-language': acceptLanguage,
     },
+    credentials: 'include',
   });
   let templateDefinitions;
   const pageJson = await response.json();
@@ -117,7 +117,10 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
     response = await fetch(
       `${apiBase}${pageTemplateDefinitionsPath}` +
         '/' +
-        pageJson['mgnl:template']
+        pageJson['mgnl:template'],
+      {
+        credentials: 'include',
+      }
     );
     templateDefinitions = await response.json();
   }

@@ -8,7 +8,9 @@ import {
 import { runAPIMiddleware } from '../../utils/run-api-middleware';
 
 const cors = Cors({
-  methods: ['GET', 'HEAD'],
+  methods: ['GET', 'HEAD', 'OPTIONS'],
+  origin: process.env.MGNL_HOST,
+  credentials: true,
 });
 
 export default async function handler(
@@ -18,14 +20,23 @@ export default async function handler(
   const { NEXTJS_HOST, MGNL_LANGUAGES } = process.env;
   await runAPIMiddleware(req, res, cors);
   const { slug } = req.query;
-  const preview = Boolean(process.env.MGNL_PREVIEW);
+  let preview = Boolean(req.preview);
   const languages =
     MGNL_LANGUAGES && MGNL_LANGUAGES.split(' ').length
       ? MGNL_LANGUAGES.split(' ')
       : ['en'];
 
-  if (preview) {
+  // TODO: Cookie should be attached correctly to the mgnl host instead of this:
+  // Not able to serve the public instance if it is like that...
+  if (req.headers.origin === process.env.MGNL_HOST) {
+    console.log(
+      'Workaround for cookie not being passed applied',
+      req.cookies,
+      req.preview,
+      req.url
+    );
     res.setPreviewData({});
+    preview = true;
   }
 
   const {
@@ -42,7 +53,7 @@ export default async function handler(
   const acceptLanguage =
     (req.headers['accept-language'] as string) || getAcceptLang('en');
 
-  const { pageJson, templateDefinitions } = await getMagnoliaData({
+  const { pageJson, templateDefinitions = null } = await getMagnoliaData({
     apiBase,
     pageJsonPath,
     pageTemplateDefinitionsPath,

@@ -1,27 +1,23 @@
 import React from 'react';
 import Head from 'next/head';
-import styles from './index.module.scss';
-import pageConfig from '../magnolia.config';
+import styles from '../index.module.scss';
+import pageConfig from '../../magnolia.config';
 import { EditablePage } from '@magnolia/react-editor';
 import { useEffect, useState } from 'react';
-import AppContext from '../utils/hooks/context';
+import AppContext from '../../utils/hooks/context';
 import {
   buildMagnoliaDataPath,
   getAcceptLang,
   getCleanCurrentPathParts,
-  getMagnoliaData,
-} from '../utils/magnolia-data-requests';
+} from '../../utils/magnolia-data-requests';
 import useSWR from 'swr';
 import {
-  GetStaticPaths,
-  GetStaticPathsContext,
-  GetStaticPathsResult,
   GetStaticProps,
   GetStaticPropsContext,
   GetStaticPropsResult,
 } from 'next';
-import { fetcher } from '../utils/fetcher';
-import normalizeSluck from '../utils/normalize-sluck';
+import { fetcher } from '../../utils/fetcher';
+import normalizeSluck from '../../utils/normalize-sluck';
 
 interface SlugProps {
   host: string;
@@ -35,6 +31,53 @@ interface SlugProps {
   currentPathname: string;
   languages: string[];
   fetchInterval: number;
+  registerPreview: boolean;
+}
+
+function usePreview(host: string, registerPreview: boolean) {
+  return useSWR<{ success: boolean }>(
+    () => (registerPreview ? `${host}/api/preview` : null),
+    fetcher
+  );
+}
+
+function useMagnoliaData({
+  host,
+  pathname,
+  registerPreview,
+  language,
+  fetchInterval,
+  props,
+}: {
+  host: string;
+  pathname: string;
+  authorPathPart: string;
+  preview: boolean;
+  registerPreview: boolean;
+  language: string;
+  fetchInterval: number;
+  props: SlugProps;
+}) {
+  const { error } = usePreview(host, registerPreview);
+
+  if (error) {
+    throw error;
+  }
+
+  return useSWR(
+    `${host}/api/${pathname}`,
+    (input: RequestInfo) =>
+      fetcher(input, {
+        headers: {
+          'Accept-Language': getAcceptLang(language),
+        },
+        credentials: 'include',
+      }),
+    {
+      fallbackData: props,
+      refreshInterval: fetchInterval,
+    }
+  );
 }
 
 export default function Slug(props: SlugProps) {
@@ -45,6 +88,7 @@ export default function Slug(props: SlugProps) {
     fetchInterval,
     authorPathPart,
     languages,
+    registerPreview,
   } = props;
   const environmentPathName =
     typeof window !== 'undefined' && window.location
@@ -62,20 +106,16 @@ export default function Slug(props: SlugProps) {
     language,
     `${host}/api/${pathname}`
   );
-  const { data, error } = useSWR(
-    `${host}/api/${pathname}`,
-    (input: RequestInfo) =>
-      fetcher(input, {
-        headers: {
-          'Accept-Language': getAcceptLang(language),
-        },
-        credentials: 'include',
-      }),
-    {
-      fallbackData: props,
-      refreshInterval: fetchInterval,
-    }
-  );
+  const { data, error } = useMagnoliaData({
+    host,
+    pathname,
+    authorPathPart,
+    preview,
+    fetchInterval,
+    language,
+    registerPreview,
+    props,
+  });
   const [state, setState] = useState({
     ...props,
     pageConfig,
@@ -123,9 +163,15 @@ export const getStaticProps: GetStaticProps<SlugProps> = async ({
     NEXTJS_PUBLIC_FETCH_INTERVAL,
     MGNL_PATH_AUTHOR,
     MGNL_LANGUAGES,
+    MGNL_PREVIEW_EXPORT,
   } = process.env;
 
   preview = Boolean(preview);
+  let registerPreview = false;
+
+  if (!preview && MGNL_PREVIEW_EXPORT) {
+    registerPreview = true;
+  }
 
   const languages =
     MGNL_LANGUAGES && MGNL_LANGUAGES.split(' ').length
@@ -137,29 +183,20 @@ export const getStaticProps: GetStaticProps<SlugProps> = async ({
   const {
     apiBase,
     currentPathname,
-    language,
     pageJsonPath,
     pageTemplateDefinitionsPath,
-  } = buildMagnoliaDataPath(slug, preview, languages);
+  } = buildMagnoliaDataPath(slug, registerPreview, languages);
 
   console.log(
-    'getStaticProps [[...slug]]',
+    'getStaticProps template',
     process.env.NODE_ENV,
     params,
     params && params.slug ? params.slug : null,
     preview,
+    registerPreview,
     apiBase,
     pageJsonPath,
     pageTemplateDefinitionsPath
-  );
-
-  const { pageJson = null, templateDefinitions = null } = await getMagnoliaData(
-    {
-      apiBase,
-      pageJsonPath,
-      pageTemplateDefinitionsPath,
-      acceptLanguage: getAcceptLang(language),
-    }
   );
 
   const fetchInterval = parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10);
@@ -168,28 +205,17 @@ export const getStaticProps: GetStaticProps<SlugProps> = async ({
     props: {
       host: NEXTJS_HOST as string,
       authorPathPart: MGNL_PATH_AUTHOR as string,
-      pageJson,
-      templateDefinitions,
+      pageJson: null,
+      templateDefinitions: null,
       preview,
       apiBase,
       pageJsonPath,
       pageTemplateDefinitionsPath,
       currentPathname,
       languages,
+      registerPreview,
       fetchInterval: preview ? 0 : fetchInterval,
     },
     revalidate: fetchInterval / 1000,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = ({
-  locales,
-  defaultLocale,
-}: GetStaticPathsContext): GetStaticPathsResult => {
-  console.log('getStaticPaths locales, defaultLocale', locales, defaultLocale);
-
-  return {
-    paths: [],
-    fallback: process.env.MGNL_PREVIEW_EXPORT ? false : 'blocking',
   };
 };

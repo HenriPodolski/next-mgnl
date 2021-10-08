@@ -1,6 +1,8 @@
 node_modules
 apache-tomcat
 downloads
+next-mgnl-lightmodules/lightmodules/next-spa-lm/webresources/out
+light-modules/next-spa-lm/webresources/out
 
 .DS_Store
 target

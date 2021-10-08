@@ -7,8 +7,8 @@
     "cross-env": "^7.0.3"
   },
   "scripts": {
-    "postinstall": "npx mgnl jumpstart",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No test specified\" && exit 0",
+    "lint": "echo \"No lint specified\" && exit 0",
     "dev": "npx mgnl start",
     "stop": "./apache-tomcat/bin/magnolia_control.sh stop"
   },
