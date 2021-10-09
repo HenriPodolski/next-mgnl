@@ -1,3 +1,6 @@
+import { fetcher } from './fetcher';
+import useSWR from 'swr';
+
 export interface MagnoliaDataRequestParams {
   apiBase: string;
   pageJsonPath: string;
@@ -8,6 +11,56 @@ export interface MagnoliaDataRequestParams {
 export interface MagnoliaDataResponse<TPageJSON, TTemplateDef> {
   pageJson: TPageJSON;
   templateDefinitions?: TTemplateDef;
+}
+
+export const stdFetchInit = (language: string): RequestInit => ({
+  headers: {
+    'Accept-Language': getAcceptLang(language),
+  },
+  credentials: 'include',
+});
+
+/**
+ * Used for rehydrate data on clientside
+ * @param host
+ * @param language
+ * @param registerPreview
+ * @param preview
+ * @param secret
+ * @param pathname
+ * @param fetchInterval
+ * @param props
+ */
+export function useMagnoliaData<TFallbackData>({
+  host,
+  language,
+  registerPreview,
+  preview,
+  secret,
+  pathname,
+  fetchInterval,
+  props,
+}: {
+  host: string;
+  language: string;
+  secret: string;
+  preview: boolean;
+  pathname: string;
+  registerPreview: boolean;
+  fetchInterval: number;
+  props: TFallbackData;
+}) {
+  return useSWR(
+    () =>
+      !preview && registerPreview && secret
+        ? `${host}/api/preview?secret=${secret}&path=${pathname}`
+        : `${host}/api/${pathname}`,
+    (input: RequestInfo) => fetcher(input, stdFetchInit(language)),
+    {
+      fallbackData: props,
+      refreshInterval: fetchInterval,
+    }
+  );
 }
 
 export function getCleanCurrentPathParts(
@@ -104,12 +157,7 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
     acceptLanguage
   );
 
-  let response = await fetch(pageJsonEndpoint, {
-    headers: {
-      'accept-language': acceptLanguage,
-    },
-    credentials: 'include',
-  });
+  let response = await fetch(pageJsonEndpoint, stdFetchInit(acceptLanguage));
   let templateDefinitions;
   const pageJson = await response.json();
 

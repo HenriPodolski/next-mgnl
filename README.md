@@ -20,6 +20,12 @@ To stop dev: Ctrl + C and:
 npm run stop
 ```
 
+### Nextjs
+Changes in the folder pages/templates/ require an export to see changes (even in development):
+```bash
+npm run export:web
+```
+
 ### Docker
 Build web frontend:
 ```bash
@@ -35,7 +41,7 @@ docker rm next-mgnl-web
 ```
 
 ### ToDo
-- [ ] Cookie should be attached correctly to the mgnl host instead of
+- [ ] Attempt to not expose author REST routes to rest-anonymous
 - [ ] If error occurs in useSWR the page needs to render the error page
 - [ ] Check and provide typescript typings (replace unknown, any types for possible)
 - [ ] Provide options for DB to mgnl docker image (maybe helpful: https://github.com/nicolasbarbe/magnolia-docker)

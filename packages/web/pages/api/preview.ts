@@ -12,10 +12,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('preview handler headers', req.headers, req.query);
-
   await runAPIMiddleware(req, res, cors);
+
+  // it should only hide the preview from the public
+  if (
+    !req.query.secret ||
+    req.query.secret !== process.env.MGNL_PREVIEW_SECRET
+  ) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+
   res.setPreviewData({});
 
-  res.status(200).json({ success: true });
+  res.redirect(String(req.query.path));
 }
