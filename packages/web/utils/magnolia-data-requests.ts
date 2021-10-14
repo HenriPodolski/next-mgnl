@@ -50,15 +50,21 @@ export function useMagnoliaData<TFallbackData>({
   fetchInterval: number;
   props: TFallbackData;
 }) {
+  const previewEndpoint = `${host}/api/preview?secret=${secret}&path=${pathname}`;
+  const pagePropsEndpoint = `${host}/api/${pathname}`;
+
   return useSWR(
     () =>
       !preview && registerPreview && secret
-        ? `${host}/api/preview?secret=${secret}&path=${pathname}`
-        : `${host}/api/${pathname}`,
+        ? previewEndpoint
+        : pagePropsEndpoint,
     (input: RequestInfo) => fetcher(input, stdFetchInit(language)),
     {
       fallbackData: props,
       refreshInterval: fetchInterval,
+      revalidateIfStale: preview || Boolean(registerPreview && secret),
+      revalidateOnFocus: preview || Boolean(registerPreview && secret),
+      revalidateOnReconnect: preview || Boolean(registerPreview && secret),
     }
   );
 }
@@ -151,8 +157,8 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
   const pageJsonEndpoint = `${apiBase}${pageJsonPath}`;
 
   console.log(
-    'getMagnoliaData pageJsonPath, lang',
-    pageJsonPath,
+    'getMagnoliaData pageJsonEndpoint, lang',
+    pageJsonEndpoint,
     'Accept-Language:',
     acceptLanguage
   );

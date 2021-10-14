@@ -6,6 +6,7 @@ import {
   getMagnoliaData,
 } from '../../utils/magnolia-data-requests';
 import { runAPIMiddleware } from '../../utils/run-api-middleware';
+import normalizeSluck from '../../utils/normalize-sluck';
 
 const cors = Cors({
   methods: ['GET', 'HEAD', 'OPTIONS'],
@@ -17,10 +18,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log('handler cookies', req.cookies);
+
   const { NEXTJS_HOST, MGNL_LANGUAGES } = process.env;
   await runAPIMiddleware(req, res, cors);
-  const { slug } = req.query;
+  const slug = normalizeSluck(req.query);
   const preview = Boolean(req.preview);
+
   const languages =
     MGNL_LANGUAGES && MGNL_LANGUAGES.split(' ').length
       ? MGNL_LANGUAGES.split(' ')
@@ -31,11 +35,7 @@ export default async function handler(
     currentPathname,
     pageJsonPath,
     pageTemplateDefinitionsPath,
-  } = buildMagnoliaDataPath(
-    typeof slug === 'string' ? [slug] : slug,
-    preview,
-    languages
-  );
+  } = buildMagnoliaDataPath(slug, preview, languages);
 
   const acceptLanguage =
     (req.headers['accept-language'] as string) || getAcceptLang('en');

@@ -136,6 +136,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
     pageTemplateDefinitionsPath,
   } = buildMagnoliaDataPath(slug, registerPreview, languages);
 
+  console.log('getStaticProps preview', preview);
+
   const { pageJson = null, templateDefinitions = null } = await getMagnoliaData(
     {
       apiBase,

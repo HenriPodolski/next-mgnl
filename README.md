@@ -49,5 +49,12 @@ docker rm next-mgnl-web
 - [ ] Testing with snapshot image and code
 - [ ] Check usage of next image, head and link in storybook
 - [ ] Pre-Commit hook
-- [ ] Provide documentation on how to setup
-- [ ] Log nextjs logs into Magnolia 
+- [ ] Provide documentation on how to use/change
+- [ ] Pass nextjs logs into Magnolia logging
+- [ ] Manual Testing of author view, preview and public
+
+### Optional Todo
+- [ ] Evaluate redirect to correct page in /api/preview, instead of redirecting to CMS API and dealing with result clientside (try with disabled useSWR revalidate)
+- check CMS API if slug exists
+- use page redirect in preview
+- disable useSWR completely for the smoke test + try a minimum templateScript using client side redirect to /api/preview using window location href only

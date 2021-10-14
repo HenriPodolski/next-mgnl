@@ -14,6 +14,8 @@ export default async function handler(
 ) {
   await runAPIMiddleware(req, res, cors);
 
+  console.log('preview', req.headers, req.cookies);
+
   // it should only hide the preview from the public
   if (
     !req.query.secret ||
