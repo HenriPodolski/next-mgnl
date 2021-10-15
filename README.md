@@ -15,13 +15,18 @@ Start Dev within Magnolia preview and Nextjs, Storybook:
 ```bash
 npm run dev
 ```
+In order to use authoring preview/page builder features you will need 
+to grant read-only access to website ACL in Magnolia Security app 
+to the role rest-anonymous. This project aims to find a solution for that.
+
 To stop dev: Ctrl + C and:
 ```bash
 npm run stop
 ```
 
 ### Nextjs
-Changes in the folder pages/templates/ require an export to see changes (even in development):
+If Magnolia CE is used an export is necessary to see changes in author preview 
+(even in development):
 ```bash
 npm run export:web
 ```
@@ -41,20 +46,16 @@ docker rm next-mgnl-web
 ```
 
 ### ToDo
-- [ ] Attempt to not expose author REST routes to rest-anonymous
 - [ ] If error occurs in useSWR the page needs to render the error page
 - [ ] Check and provide typescript typings (replace unknown, any types for possible)
-- [ ] Provide options for DB to mgnl docker image (maybe helpful: https://github.com/nicolasbarbe/magnolia-docker)
 - [ ] Lint
 - [ ] Testing with snapshot image and code
-- [ ] Check usage of next image, head and link in storybook
+- [ ] Implement fallbacks for next image, head, script and link in storybook
 - [ ] Pre-Commit hook
 - [ ] Provide documentation on how to use/change
-- [ ] Pass nextjs logs into Magnolia logging
 - [ ] Manual Testing of author view, preview and public
+- [ ] Attempt to not expose author ACL website to rest-anonymous
 
-### Optional Todo
-- [ ] Evaluate redirect to correct page in /api/preview, instead of redirecting to CMS API and dealing with result clientside (try with disabled useSWR revalidate)
-- check CMS API if slug exists
-- use page redirect in preview
-- disable useSWR completely for the smoke test + try a minimum templateScript using client side redirect to /api/preview using window location href only
+### ToDo Backlog
+- [ ] Pass nextjs logs into Magnolia logging
+- [ ] Provide options for DB to mgnl docker image (maybe helpful: https://github.com/nicolasbarbe/magnolia-docker)

@@ -1,5 +1,7 @@
 import * as nextImage from 'next/image';
 import * as nextLink from 'next/link';
+import * as nextHead from 'next/head';
+import * as nextScript from 'next/script';
 import '../styles/global.scss';
 
 export const parameters = {
@@ -47,4 +49,24 @@ Object.defineProperty(nextLink, 'default', {
             <a href="#">Link replacement</a>
         )
     },
+});
+
+Object.defineProperty(nextScript, 'default', {
+  configurable: true,
+  value: (props) => {
+    console.log('nextScript props', props);
+    return (
+      <></>
+    )
+  },
+});
+
+Object.defineProperty(nextHead, 'default', {
+  configurable: true,
+  value: (props) => {
+    console.log('nextHead props', props);
+    return (
+      <></>
+    )
+  },
 });
