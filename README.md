@@ -20,6 +20,12 @@ To stop dev: Ctrl + C and:
 npm run stop
 ```
 
+### Nextjs
+Changes in the folder pages/templates/ require an export to see changes (even in development):
+```bash
+npm run export:web
+```
+
 ### Docker
 Build web frontend:
 ```bash
@@ -35,7 +41,7 @@ docker rm next-mgnl-web
 ```
 
 ### ToDo
-- [ ] Cookie should be attached correctly to the mgnl host instead of
+- [ ] Attempt to not expose author REST routes to rest-anonymous
 - [ ] If error occurs in useSWR the page needs to render the error page
 - [ ] Check and provide typescript typings (replace unknown, any types for possible)
 - [ ] Provide options for DB to mgnl docker image (maybe helpful: https://github.com/nicolasbarbe/magnolia-docker)
@@ -43,4 +49,12 @@ docker rm next-mgnl-web
 - [ ] Testing with snapshot image and code
 - [ ] Check usage of next image, head and link in storybook
 - [ ] Pre-Commit hook
-- [ ] Provide documentation on how to setup
+- [ ] Provide documentation on how to use/change
+- [ ] Pass nextjs logs into Magnolia logging
+- [ ] Manual Testing of author view, preview and public
+
+### Optional Todo
+- [ ] Evaluate redirect to correct page in /api/preview, instead of redirecting to CMS API and dealing with result clientside (try with disabled useSWR revalidate)
+- check CMS API if slug exists
+- use page redirect in preview
+- disable useSWR completely for the smoke test + try a minimum templateScript using client side redirect to /api/preview using window location href only

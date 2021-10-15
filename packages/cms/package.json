@@ -10,7 +10,8 @@
     "test": "echo \"No test specified\" && exit 0",
     "lint": "echo \"No lint specified\" && exit 0",
     "dev": "npx mgnl start",
-    "stop": "./apache-tomcat/bin/magnolia_control.sh stop"
+    "stop": "./apache-tomcat/bin/magnolia_control.sh stop",
+    "jumpstart": "npx mgnl jumpstart"
   },
   "keywords": [],
   "engines": {

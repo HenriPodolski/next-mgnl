@@ -1,5 +1,9 @@
 import { ParsedUrlQuery } from 'querystring';
 
+/**
+ * used to get an array of slug parameters
+ * @param params
+ */
 export default function normalizeSluck(
   params: ParsedUrlQuery | undefined
 ): string[] {
