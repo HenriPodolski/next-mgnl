@@ -103,7 +103,7 @@ export default function Page(props: PageProps) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        {state.preview && state.pageJson && (
+        {state.pageJson && (
           <EditablePage
             content={state.pageJson}
             config={state.pageConfig}
