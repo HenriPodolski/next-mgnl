@@ -5,6 +5,7 @@ export interface MagnoliaDataRequestParams {
   apiBase: string;
   pageJsonPath: string;
   acceptLanguage: string;
+  acceptLanguages: { [key: string]: string };
   pageTemplateDefinitionsPath?: string;
 }
 
@@ -13,9 +14,12 @@ export interface MagnoliaDataResponse<TPageJSON, TTemplateDef> {
   templateDefinitions?: TTemplateDef;
 }
 
-export const stdFetchInit = (language: string): RequestInit => ({
+export const stdFetchInit = (
+  language: string,
+  acceptLanguage: { [key: string]: string }
+): RequestInit => ({
   headers: {
-    'Accept-Language': getAcceptLang(language),
+    'Accept-Language': getAcceptLang(language, acceptLanguage),
   },
   credentials: 'include',
 });
@@ -24,6 +28,7 @@ export const stdFetchInit = (language: string): RequestInit => ({
  * Used for rehydrate data on clientside
  * @param host
  * @param language
+ * @param acceptLanguages
  * @param registerPreview
  * @param preview
  * @param secret
@@ -34,6 +39,7 @@ export const stdFetchInit = (language: string): RequestInit => ({
 export function useMagnoliaData<TFallbackData>({
   host,
   language,
+  acceptLanguages,
   registerPreview,
   preview,
   secret,
@@ -43,6 +49,7 @@ export function useMagnoliaData<TFallbackData>({
 }: {
   host: string;
   language: string;
+  acceptLanguages: { [key: string]: string };
   secret: string;
   preview: boolean;
   pathname: string;
@@ -58,7 +65,8 @@ export function useMagnoliaData<TFallbackData>({
       !preview && registerPreview && secret
         ? previewEndpoint
         : pagePropsEndpoint,
-    (input: RequestInfo) => fetcher(input, stdFetchInit(language)),
+    (input: RequestInfo) =>
+      fetcher(input, stdFetchInit(language, acceptLanguages)),
     {
       fallbackData: props,
       refreshInterval: fetchInterval,
@@ -103,11 +111,15 @@ export function getCleanCurrentPathParts(
   };
 }
 
-export function getAcceptLang(lang: string): string {
-  const locales: { [key: string]: string } = {
-    de: 'de-DE',
-    en: 'en-GB',
-  };
+export function getAcceptLang(
+  lang: string,
+  acceptLanguages: { [key: string]: string }
+): string {
+  const locales: { [key: string]: string } = acceptLanguages;
+
+  if (Object.values(locales).includes(lang)) {
+    return lang;
+  }
 
   return locales[lang] ? locales[lang] : locales.en;
 }
@@ -151,6 +163,7 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
   pageJsonPath,
   pageTemplateDefinitionsPath,
   acceptLanguage,
+  acceptLanguages,
 }: MagnoliaDataRequestParams): Promise<
   MagnoliaDataResponse<TPageJSON, TTemplateDef>
 > {
@@ -160,10 +173,13 @@ export async function getMagnoliaData<TPageJSON, TTemplateDef>({
     'getMagnoliaData pageJsonEndpoint, lang',
     pageJsonEndpoint,
     'Accept-Language:',
-    acceptLanguage
+    stdFetchInit(acceptLanguage, acceptLanguages)
   );
 
-  let response = await fetch(pageJsonEndpoint, stdFetchInit(acceptLanguage));
+  let response = await fetch(
+    pageJsonEndpoint,
+    stdFetchInit(acceptLanguage, acceptLanguages)
+  );
   let templateDefinitions;
   const pageJson = await response.json();
 

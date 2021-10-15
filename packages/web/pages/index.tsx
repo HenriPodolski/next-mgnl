@@ -31,6 +31,7 @@ interface PageProps {
   pageTemplateDefinitionsPath: string | undefined;
   currentPathname: string;
   languages: string[];
+  acceptLanguages: { [key: string]: string };
   registerPreview: boolean;
   fetchInterval: number;
 }
@@ -43,6 +44,7 @@ export default function Page(props: PageProps) {
     secret,
     authorPathPart,
     languages,
+    acceptLanguages,
     registerPreview,
     fetchInterval,
   } = props;
@@ -55,21 +57,24 @@ export default function Page(props: PageProps) {
     authorPathPart,
     languages
   );
+  const [registerPreviewState, setRegisterPreviewState] =
+    useState(registerPreview);
+  const [state, setState] = useState({
+    ...props,
+    language,
+    pageConfig,
+  });
 
   const { data, error } = useMagnoliaData<PageProps>({
     host,
-    language,
-    registerPreview,
-    preview,
+    language: state.language,
+    acceptLanguages,
+    registerPreview: registerPreviewState,
+    preview: state.preview,
     secret,
     pathname,
     props,
     fetchInterval,
-  });
-
-  const [state, setState] = useState({
-    ...props,
-    pageConfig,
   });
 
   useEffect(() => {
@@ -77,6 +82,10 @@ export default function Page(props: PageProps) {
       ...data,
       pageConfig,
     });
+
+    if (registerPreviewState && data.preview) {
+      setRegisterPreviewState(false);
+    }
   }, [data]);
 
   if (error) {
@@ -119,15 +128,15 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
   } = process.env;
 
   preview = Boolean(preview);
+  // in case it is a build as a preview export this will evaluate to true
   const registerPreview = Boolean(!preview && MGNL_PREVIEW_EXPORT);
-
-  const languages =
-    MGNL_LANGUAGES && MGNL_LANGUAGES.split(' ').length
-      ? MGNL_LANGUAGES.split(' ')
-      : ['en'];
-
+  // available languages as object to be used to set language headers
+  const acceptLanguages = JSON.parse(MGNL_LANGUAGES as string);
+  // helper object containing short lang parameters
+  // used for non-localized shortend language variant param, e.g. en for en-GB
+  const languages = Object.keys(acceptLanguages);
   const slug = normalizeSluck(params);
-
+  // build the path to request Magnolia pageJSON endpoint
   const {
     apiBase,
     currentPathname,
@@ -135,18 +144,15 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
     pageJsonPath,
     pageTemplateDefinitionsPath,
   } = buildMagnoliaDataPath(slug, registerPreview, languages);
-
-  console.log('getStaticProps preview', preview);
-
   const { pageJson = null, templateDefinitions = null } = await getMagnoliaData(
     {
       apiBase,
       pageJsonPath,
       pageTemplateDefinitionsPath,
-      acceptLanguage: getAcceptLang(language),
+      acceptLanguage: getAcceptLang(language, acceptLanguages),
+      acceptLanguages,
     }
   );
-
   const fetchInterval = parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10);
 
   return {
@@ -162,6 +168,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
       pageTemplateDefinitionsPath,
       currentPathname,
       languages,
+      acceptLanguages,
       registerPreview,
       fetchInterval: preview || registerPreview ? 0 : fetchInterval,
     },
