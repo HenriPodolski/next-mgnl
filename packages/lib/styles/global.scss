@@ -2,14 +2,13 @@
    CSS variables library
    docs: https://www.pollen.style */
 @import "~pollen-css";
+@import '~pollen-css/addons/grid.css';
 
 /* the new CSS reset, docs: https://elad2412.github.io/the-new-css-reset */
 @import "~the-new-css-reset";
 
-pre, code {
-  white-space: revert;
-}
-
+@import "base";
+@import "grid";
 /* display pointer on clickable elements */
 @import "./clickable-pointer";
 /* helpers for a11y displaying or hiding elements */

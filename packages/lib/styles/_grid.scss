@@ -1,0 +1,30 @@
+.ContentGrid {
+  --content-grid-offset: 20%;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(var(--prose-md) + var(--content-grid-offset));
+  margin: 0 auto;
+
+  &Item {
+    position: relative;
+    justify-self: center;
+    flex: 1 0 auto;
+    margin-bottom: 0;
+    margin-right: calc(var(--content-grid-offset) / 2);
+    margin-left: calc(var(--content-grid-offset) / 2);
+
+    &:not(:last-of-type) {
+      margin-bottom: 1rem;
+    }
+
+    &.LeftAligned {
+      margin-left: 0;
+      margin-right: var(--content-grid-offset);
+    }
+
+    &.RightAligned {
+      margin-left: var(--content-grid-offset);
+      margin-right: 0;
+    }
+  }
+}
