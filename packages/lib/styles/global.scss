@@ -1,14 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Pollen CSS is a standards-driven, utility-first or token based
+   CSS variables library
+   docs: https://www.pollen.style */
+@import "~pollen-css";
 
-@layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+/* the new CSS reset, docs: https://elad2412.github.io/the-new-css-reset */
+@import "~the-new-css-reset";
 
-}
+/* display pointer on clickable elements */
+@import "./clickable-pointer";
+/* helpers for a11y displaying or hiding elements */
+@import "./a11y-helpers";
 
-@layer components {
-  .richtext {
-    @apply prose;
-  }
+:root {
+  --font-sans: Arial, sans-serif;
+  --font-mono: Consolas, Menlo, Monaco, "Liberation Mono", monospace;
 }

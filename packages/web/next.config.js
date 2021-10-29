@@ -18,6 +18,7 @@ const withTranspileModules = require('next-transpile-modules')(
 
 module.exports = withPlugins([withImages, withTranspileModules], {
   reactStrictMode: true,
+  swcMinify: true,
   assetPrefix: MGNL_PREVIEW_EXPORT
     ? MGNL_HOST + MGNL_PATH_AUTHOR + MGNL_RESOURCES_PATH
     : NEXTJS_HOST,
