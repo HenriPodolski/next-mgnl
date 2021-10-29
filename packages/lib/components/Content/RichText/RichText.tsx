@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import styles from './RichText.module.scss';
 
 export type RichTextProps = {
   content: string;
@@ -9,7 +10,7 @@ export type RichTextProps = {
 export default function RichText({ content, className }: RichTextProps) {
   return (
     <div
-      className={cx('richtext')}
+      className={cx(styles.RichText, className)}
       dangerouslySetInnerHTML={{ __html: content }}
     ></div>
   );

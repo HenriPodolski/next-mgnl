@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/globals.scss';
+import '../styles/global.scss';
 
 function App({ Component, pageProps }: any) {
   return <Component {...pageProps} />;
