@@ -52,19 +52,18 @@ Remove:
 docker rm next-mgnl-web 
 ```
 
-### CSS Bootstrap Kit
+### CSS Starterkit
 Includes: 
 * [the new CSS reset](https://elad2412.github.io/the-new-css-reset) 
-* An utility/token based approach using CSS variable, for rapid CSS development [Pollen CSS](https://www.pollen.style)
+* An utility/token based approach using CSS variable, for rapid CSS prototyping and streamlined CSS development in teams [Pollen CSS](https://www.pollen.style)
 * a lightweight, flexible CSS helpers kit for basic accessibility
 
-The bootstrap kit is fully customizable to project needs, by just replacing libs and/or changing design token variables.
+The bootstrap kit is fully customizable to project needs, by just replacing libs and/or changing design token variables or replace everything to your needs by changing only one file (packages/lib/styles/global.scss).
 Please check packages/lib/styles/global.scss for more infos.
 
 ### ToDo
+- [ ] Demo for style kit usage in rich text component
 - [ ] If error occurs in useSWR the page needs to render the error page
-- [ ] Create base image for deps as base and images for lib and web using base deps image 
-- [ ] Check and provide typescript typings (replace unknown, any types for possible)
 - [ ] Lint
 - [ ] Testing with snapshot image and code
 - [ ] Implement fallbacks for next image, head, script and link in storybook
@@ -73,6 +72,8 @@ Please check packages/lib/styles/global.scss for more infos.
 - [ ] Manual Testing of author view, preview and public
 - [ ] Attempt to not expose author ACL website to rest-anonymous
 
+
 ### ToDo Backlog
 - [ ] Pass nextjs logs into Magnolia logging
+- [ ] Create docker base image for deps as base and images for lib and web using base deps image
 - [ ] Provide options for DB to mgnl docker image (maybe helpful: https://github.com/nicolasbarbe/magnolia-docker)
