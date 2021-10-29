@@ -2,10 +2,13 @@
    CSS variables library
    docs: https://www.pollen.style */
 @import "~pollen-css";
+@import '~pollen-css/addons/grid.css';
 
 /* the new CSS reset, docs: https://elad2412.github.io/the-new-css-reset */
 @import "~the-new-css-reset";
 
+@import "base";
+@import "grid";
 /* display pointer on clickable elements */
 @import "./clickable-pointer";
 /* helpers for a11y displaying or hiding elements */
@@ -14,4 +17,17 @@
 :root {
   --font-sans: Arial, sans-serif;
   --font-mono: Consolas, Menlo, Monaco, "Liberation Mono", monospace;
+
+  --color-grey-300: #f4f5f9;
+  --color-grey-400: #b1b3b7;
+  --color-grey-500: #8f919b;
+  --color-grey-600: #4b5563;
+  --color-grey-700: #374151;
+  --color-grey-900: #111827;
+
+  --color-text-primary: var(--color-grey-700);
+  --color-text-secondary: var(--color-grey-600);
+  --color-text-emphasize: var(--color-grey-900);
+
+  --scale-00000: 0.25rem;
 }
