@@ -38,8 +38,11 @@ const RichTextGridTemplate: ComponentStory<any> = (args) => (
     <div className="ContentGridItem RightAligned">
       <RichText {...args} content={args.content3} />
     </div>
-    <div className="ContentGridItem">
+    <div className="ContentGridItem FullWidth">
       <RichText {...args} content={args.content4} />
+    </div>
+    <div className="ContentGridItem">
+      <RichText {...args} content={args.content5} />
     </div>
   </div>
 );
@@ -85,7 +88,7 @@ RichTextGrid.args = {
 <p>For more information about how to use the plugin and the features it includes, <a
   href="https://example.com">read the documentation</a>.</p>
 `,
-  content4: `
+  content5: `
 <h2>What to expect from here on out</h2>
 <p>What follows from here is just a bunch of absolute nonsense I've written
   to dogfood the plugin itself. It includes every sensible typographic element I could think of, like <strong>bold
@@ -275,14 +278,12 @@ RichTextGrid.args = {
 <p>We don't
   style them at all out of the box because <code>h4</code> elements are already so small that they are the same size as
   the body copy. What are we supposed to do with an <code>h5</code>, make it <em>smaller</em> than the body copy? No
-  thanks.</p>
-<h3>We still need to think about stacked headings though.</h3><h4>Let's make sure we don't screw that up
-  with <code>h4</code> elements, either.</h4>
-<p>Phew, with any luck we have styled the headings above this text and they
-  look pretty good.</p>
-<p>Let's add a closing paragraph here so things end with a decently sized block of text. I can't
-  explain why I want things to end that way but I have to assume it's because I think things will look weird or
-  unbalanced if there is a heading too close to the end of the document.</p>
-<p>What I've written here is probably long
-  enough, but adding this final sentence can't hurt.</p>`,
+  thanks.</p>`,
+  content4: `<figure><img
+  src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80"
+  alt="">
+  <figcaption>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
+    Latin literature from 45 BC, making it over 2000 years old.
+  </figcaption>
+</figure>`,
 };

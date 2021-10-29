@@ -26,5 +26,14 @@
       margin-left: var(--content-grid-offset);
       margin-right: 0;
     }
+
+    &.FullWidth {
+      margin-left: calc(var(--content-grid-offset) / 2 * -1);
+      margin-right: calc(var(--content-grid-offset) / 2 * -1);
+
+      & > * {
+        max-width: 100%;
+      }
+    }
   }
 }
