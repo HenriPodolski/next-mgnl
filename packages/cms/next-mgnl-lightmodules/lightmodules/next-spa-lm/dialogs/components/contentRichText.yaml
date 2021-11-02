@@ -1,6 +1,8 @@
 label: RichText Component
 form:
   properties:
+    alignment:
+      !include:/next-spa-lm/includes/contentGridAlignment.yaml
     richtext:
       label: RichText Field
       required: true

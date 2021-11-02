@@ -119,6 +119,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
   params,
 }: GetStaticPropsContext): Promise<GetStaticPropsResult<PageProps>> => {
   const {
+    NODE_ENV,
     NEXTJS_HOST,
     NEXTJS_PUBLIC_FETCH_INTERVAL,
     MGNL_PATH_AUTHOR,
@@ -142,17 +143,31 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
     currentPathname,
     language,
     pageJsonPath,
-    pageTemplateDefinitionsPath,
+    pageTemplateDefinitionsPath = '',
   } = buildMagnoliaDataPath(slug, registerPreview, languages);
-  const { pageJson = null, templateDefinitions = null } = await getMagnoliaData(
-    {
+
+  let pageJson;
+  let templateDefinitions;
+
+  try {
+    const response = await getMagnoliaData({
       apiBase,
       pageJsonPath,
       pageTemplateDefinitionsPath,
       acceptLanguage: getAcceptLang(language, acceptLanguages),
       acceptLanguages,
-    }
-  );
+    });
+    pageJson = response && response.pageJson ? response.pageJson : null;
+    templateDefinitions =
+      response && response.templateDefinitions
+        ? response.templateDefinitions
+        : null;
+  } catch (e) {
+    console.log('getMagnoliaData error', e);
+    pageJson = null;
+    templateDefinitions = null;
+  }
+
   const fetchInterval = parseInt(NEXTJS_PUBLIC_FETCH_INTERVAL || '0', 10);
 
   return {

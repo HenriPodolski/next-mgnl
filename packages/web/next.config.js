@@ -19,10 +19,13 @@ const withTranspileModules = require('next-transpile-modules')(
 module.exports = withPlugins([withImages, withTranspileModules], {
   reactStrictMode: true,
   swcMinify: true,
-  assetPrefix: MGNL_PREVIEW_EXPORT
-    ? MGNL_HOST + MGNL_PATH_AUTHOR + MGNL_RESOURCES_PATH
-    : NEXTJS_HOST,
-  distDir: MGNL_PREVIEW_EXPORT ? '/templates/build' : '/build',
+  assetPrefix:
+    MGNL_PREVIEW_EXPORT && NODE_ENV !== 'production'
+      ? NEXTJS_HOST
+      : MGNL_PREVIEW_EXPORT
+      ? MGNL_HOST + MGNL_PATH_AUTHOR + MGNL_RESOURCES_PATH
+      : '',
+  distDir: MGNL_PREVIEW_EXPORT ? '/export/build' : '/build',
   cleanDistDir: true,
 
   generateBuildId: async () => {

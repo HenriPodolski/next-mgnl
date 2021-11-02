@@ -1,7 +1,7 @@
 .RichText {
   color: var(--color-text-primary);
   font-family: var(--font-sans);
-  max-width: var(--prose-md);
+  max-width: min(var(--prose-md), 100%);
   font-size: var(--scale-0);
   line-height: var(--scale-4);
 
@@ -93,7 +93,8 @@
     font-style: italic;
     color: var(--color-grey-900);
     border-left-width: var(--scale-00000);
-    border-left-color: var(--color-grey-300);
+    border-left-color: var(--color-grey-400);
+    border-left-style: solid;
     quotes: "“" "”";
   }
 
@@ -173,6 +174,8 @@
 
   table {
     width: 100%;
+    display: block;
+    overflow-x: auto;
     table-layout: auto;
     text-align: left;
     margin-top: 2em;
