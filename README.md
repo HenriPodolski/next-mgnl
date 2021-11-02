@@ -21,6 +21,20 @@ Start Dev within Magnolia preview and Nextjs, Storybook:
 ```bash
 npm run dev
 ```
+Recommended for better overview while viewings logs: start every task in a separate terminal session
+```bash
+# Magnolia development
+npm run dev:cms
+```
+```bash
+# Web (public) development
+npm run dev:web
+```
+```bash
+# UI lib/components development
+npm run dev:lib
+```
+
 In order to use authoring preview/page builder features you will need 
 to grant read-only access to website ACL in Magnolia Security app 
 to the role rest-anonymous. This project aims to find a solution for that.
@@ -62,7 +76,8 @@ The bootstrap kit is fully customizable to project needs, by just replacing libs
 Please check packages/lib/styles/global.scss for more infos.
 
 ### ToDo
-- [ ] Demo for style kit usage in rich text component
+- [ ] Create translation strategy via page module tree (not all pages are being translated)
+- [ ] next/image Magnolia image renditions component 
 - [ ] If error occurs in useSWR the page needs to render the error page
 - [ ] Lint
 - [ ] Testing with snapshot image and code

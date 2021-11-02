@@ -4,7 +4,7 @@ import styles from './RichText.module.scss';
 import Markup from '../Markup/Markup';
 
 export type RichTextProps = {
-  tagName: keyof JSX.IntrinsicElements;
+  tagName?: keyof JSX.IntrinsicElements;
   content: string;
   className?: string;
 };

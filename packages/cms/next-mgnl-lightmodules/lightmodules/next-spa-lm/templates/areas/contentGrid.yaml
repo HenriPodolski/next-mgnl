@@ -1,0 +1,9 @@
+title: Content Grid
+dialogs: next-spa-lm:areas/contentGrid
+areas:
+  contentComponents:
+    title: Content Grid Item
+    type: list
+    availableComponents:
+      contentRichText:
+        id: next-spa-lm:components/content/contentRichText

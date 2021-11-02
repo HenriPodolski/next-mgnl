@@ -7,5 +7,5 @@ areas:
   main:
     title: Main Area
     availableComponents:
-      contentRichText:
-        id: next-spa-lm:components/contentRichText
+      contentGrid:
+        id: next-spa-lm:areas/contentGrid

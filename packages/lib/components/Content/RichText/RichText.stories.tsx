@@ -93,6 +93,20 @@ RichTextGrid.args = {
 <p>What follows from here is just a bunch of absolute nonsense I've written
   to dogfood the plugin itself. It includes every sensible typographic element I could think of, like <strong>bold
     text</strong>, unordered lists, ordered lists, code blocks, block quotes, <em>and even italics</em>.</p>
+    <pre><code class="language-html">&lt;article className={styles.RichText}&gt;
+  &lt;h1&gt;Garlic bread with cheese: What the science tells us&lt;/h1&gt;
+  &lt;p&gt;
+    For years parents have espoused the health benefits of eating garlic bread with cheese to their
+    children, with the food earning such an iconic status in our culture that kids will often dress
+    up as warm, cheesy loaf for Halloween.
+  &lt;/p&gt;
+  &lt;p&gt;
+    But a recent study shows that the celebrated appetizer may be linked to a series of rabies cases
+    springing up around the country.
+  &lt;/p&gt;
+  &lt;!-- ... --&gt;
+&lt;/article&gt;
+</code></pre>
 <p>It's
   important to cover all of these use cases for a few reasons:</p>
 <ol>
@@ -231,10 +245,16 @@ RichTextGrid.args = {
     <th>Wrestler</th>
     <th>Origin</th>
     <th>Finisher</th>
+    <th>Wrestler</th>
+    <th>Origin</th>
+    <th>Finisher</th>
   </tr>
   </thead>
   <tbody>
   <tr>
+    <td>Bret "The Hitman" Hart</td>
+    <td>Calgary, AB</td>
+    <td>Sharpshooter</td>
     <td>Bret "The Hitman" Hart</td>
     <td>Calgary, AB</td>
     <td>Sharpshooter</td>
@@ -243,8 +263,14 @@ RichTextGrid.args = {
     <td>Stone Cold Steve Austin</td>
     <td>Austin, TX</td>
     <td>Stone Cold Stunner</td>
+    <td>Stone Cold Steve Austin</td>
+    <td>Austin, TX</td>
+    <td>Stone Cold Stunner</td>
   </tr>
   <tr>
+    <td>Randy Savage</td>
+    <td>Sarasota, FL</td>
+    <td>Elbow Drop</td>
     <td>Randy Savage</td>
     <td>Sarasota, FL</td>
     <td>Elbow Drop</td>
@@ -253,8 +279,14 @@ RichTextGrid.args = {
     <td>Vader</td>
     <td>Boulder, CO</td>
     <td>Vader Bomb</td>
+    <td>Vader</td>
+    <td>Boulder, CO</td>
+    <td>Vader Bomb</td>
   </tr>
   <tr>
+    <td>Razor Ramon</td>
+    <td>Chuluota, FL</td>
+    <td>Razor's Edge</td>
     <td>Razor Ramon</td>
     <td>Chuluota, FL</td>
     <td>Razor's Edge</td>

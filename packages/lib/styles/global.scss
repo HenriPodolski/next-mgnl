@@ -6,13 +6,14 @@
 
 /* the new CSS reset, docs: https://elad2412.github.io/the-new-css-reset */
 @import "~the-new-css-reset";
-
-@import "base";
-@import "grid";
 /* display pointer on clickable elements */
 @import "./clickable-pointer";
 /* helpers for a11y displaying or hiding elements */
 @import "./a11y-helpers";
+
+@import "vars";
+@import "base";
+@import "grid";
 
 :root {
   --font-sans: Arial, sans-serif;

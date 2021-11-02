@@ -1,13 +1,36 @@
 .ContentGrid {
-  --content-grid-offset: 20%;
+  --content-grid-offset: 0;
+
+  @media screen and (min-width: #{$screen-width-lg}) {
+    --content-grid-offset: 30%;
+  }
+
+  @media screen and (min-width: #{$screen-width-xl}) {
+    --content-grid-offset: 20%;
+  }
+
   display: flex;
   flex-direction: column;
-  max-width: calc(var(--prose-md) + var(--content-grid-offset));
+  width: min(var(--prose-md), 100%);
   margin: 0 auto;
+
+  @media screen and (min-width: #{$screen-width-md}) {
+    max-width: var(--prose-md);
+  }
+
+  @media screen and (min-width: #{$screen-width-lg}) {
+    max-width: calc(var(--prose-lg) + var(--content-grid-offset));
+  }
+
+  @media screen and (min-width: #{$screen-width-xl}) {
+    max-width: calc(var(--prose-xl) + var(--content-grid-offset));
+  }
 
   &Item {
     position: relative;
+    display: flex;
     justify-self: center;
+    justify-content: center;
     flex: 1 0 auto;
     margin-bottom: 0;
     margin-right: calc(var(--content-grid-offset) / 2);
@@ -18,21 +41,40 @@
     }
 
     &.LeftAligned {
+      justify-content: flex-start;
       margin-left: 0;
       margin-right: var(--content-grid-offset);
+
+      @media screen and (max-width: #{$screen-width-md}) {
+        justify-content: center;
+        margin-right: calc(var(--content-grid-offset) / 2);
+        margin-left: calc(var(--content-grid-offset) / 2);
+      }
     }
 
     &.RightAligned {
+      justify-content: flex-end;
       margin-left: var(--content-grid-offset);
       margin-right: 0;
+
+      @media screen and (max-width: #{$screen-width-md}) {
+        justify-content: center;
+        margin-right: calc(var(--content-grid-offset) / 2);
+        margin-left: calc(var(--content-grid-offset) / 2);
+      }
     }
 
     &.FullWidth {
-      margin-left: calc(var(--content-grid-offset) / 2 * -1);
-      margin-right: calc(var(--content-grid-offset) / 2 * -1);
+      margin-left: 0;
+      margin-right: 0;
 
       & > * {
         max-width: 100%;
+        width: 100%;
+
+        img {
+          width: 100%;
+        }
       }
     }
   }

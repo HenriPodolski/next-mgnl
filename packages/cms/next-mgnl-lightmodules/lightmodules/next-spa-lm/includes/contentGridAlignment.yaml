@@ -1,0 +1,20 @@
+label: Alignment
+$type: radioButtonGroupField
+layout: horizontal
+required: true
+defaultValue: centered
+datasource:
+  $type: optionListDatasource
+  options:
+    - name: LeftAligned
+      value: LeftAligned
+      label: left aligned
+    - name: centered
+      value: centered
+      label: centered
+    - name: RightAligned
+      value: RightAligned
+      label: right aligned
+    - name: FullWidth
+      value: FullWidth
+      label: full width
