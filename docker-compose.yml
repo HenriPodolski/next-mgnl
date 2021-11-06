@@ -1,0 +1,54 @@
+version: "3.4"
+
+services:
+  web1:
+    image: henripodolskicom/web1
+    container_name: web1
+    environment:
+      - 'NEXTJS_HOST=http://localhost:3000'
+      - 'NEXTJS_PUBLIC_FETCH_INTERVAL=300000'
+      - 'MGNL_HOST=http://cms-author:8080'
+      - 'MGNL_PATH_AUTHOR='
+      - 'MGNL_LANGUAGES={"en": "en-GB", "de": "de-DE" }'
+      - 'MGNL_PREVIEW_SECRET=TESTSECRET'
+      - 'MGNL_PREVIEW_EXPORT='
+      - 'MGNL_API_TEMPLATES=/.rest/template-definitions/v1'
+      - 'MGNL_API_PAGES=/.rest/delivery/pages/v1'
+      - 'MGNL_RESOURCES_PATH=/.resources/next-spa-lm/webresources/out'
+      - 'MGNL_RESOURCES_DIR=../cms/next-mgnl-lightmodules/lightmodules/next-spa-lm/webresources/out'
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - MGNL_PATH_AUTHOR:${MGNL_PATH_AUTHOR}
+    networks:
+      - backend
+    restart: always
+    ports:
+      - '3000:3000'
+
+  cms_author:
+    image: henripodolskicom/cms_author
+    container_name: cms-author
+    build:
+      context: ./packages/cms
+      dockerfile: Dockerfile.author
+    networks:
+      - backend
+    ports:
+      - '8080:8080'
+
+  cms_public:
+    image: henripodolskicom/cms_public
+    container_name: cms-public
+    build:
+      context: ./packages/cms
+      dockerfile: Dockerfile.public
+    networks:
+      - backend
+    ports:
+      - '8081:8080'
+
+networks:
+  backend:
+    external: true

@@ -66,6 +66,14 @@ Remove:
 docker rm next-mgnl-web 
 ```
 
+### Docker Compose
+https://www.edwinology.com/2020/05/trying-out-docker-with-magnolia-cms.html
+https://www.edwinology.com/2020/05/trying-out-docker-magnolia-and-postgres.html
+https://github.com/ebguilbert/docker-magnolia-cms
+```bash
+npm run docker
+```
+
 ### CSS Starterkit
 Includes: 
 * [the new CSS reset](https://elad2412.github.io/the-new-css-reset) 

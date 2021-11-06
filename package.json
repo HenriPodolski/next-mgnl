@@ -13,6 +13,9 @@
     "dev:cms": "npm run dev -w @next-mgnl/cms",
     "dev:lib": "npm run dev -w @next-mgnl/lib",
     "export:web": "npm run export -w @next-mgnl/web",
+    "export:web:production": "npm run export:production -w @next-mgnl/web",
+    "docker": "npm run export:web:production && npm run maven:install && docker-compose build",
+    "maven:install": "cd packages/cms && mvn clean install",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "stop": "npm run stop -w @next-mgnl/cms"
@@ -25,7 +28,8 @@
     "./packages/cms"
   ],
   "devDependencies": {
-    "concurrently": "^6.2.1"
+    "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3"
   },
   "repository": {
     "type": "git",
