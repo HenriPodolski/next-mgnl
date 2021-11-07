@@ -85,12 +85,16 @@ export function getCleanCurrentPathParts(
   let language = languages[0];
   authorPathPart = (authorPathPart ? authorPathPart : '').replace(/^\//, '');
   const cleanRegex = new RegExp(
-    `(?:(^\/)|(${authorPathPart})(\/)(.+)(\.html))`,
+    authorPathPart
+      ? `(?:(^\/)|(${authorPathPart})(\/)(.+)(\.html))`
+      : `(\/)(.+)(\.html)`,
     'gi'
   );
   const languageParamRegex = new RegExp(`^(${languages.join('|')})(\/)(.+)$`);
-
-  currentPathname = currentPathname.replace(cleanRegex, '$4');
+  currentPathname = currentPathname.replace(
+    cleanRegex,
+    authorPathPart ? '$4' : '$2'
+  );
   const languageRegExpResult = languageParamRegex.exec(currentPathname);
 
   if (
