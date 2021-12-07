@@ -2,6 +2,6 @@
 /.next/**
 /.git/**
 /build/**
-/buildscripts/**
+/export/**
 !.eslintrc.js
 next.config.js
