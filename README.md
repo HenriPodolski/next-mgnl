@@ -2,7 +2,7 @@
 Blueprint: Nextjs, Incremental Static Site Generation with Magnolia CE headless SPA integration
 
 ### Install
-
+Install JAVA: JRE and JDK 11
 Install node version manager: https://github.com/nvm-sh/nvm
 
 ```bash
