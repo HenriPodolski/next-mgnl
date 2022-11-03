@@ -67,6 +67,15 @@ Remove:
 docker rm next-mgnl-web 
 ```
 
+### Docker Compose
+https://www.edwinology.com/2020/05/trying-out-docker-with-magnolia-cms.html
+https://www.edwinology.com/2020/05/trying-out-docker-magnolia-and-postgres.html
+https://github.com/ebguilbert/docker-magnolia-cms
+
+```bash
+npm run docker
+```
+
 ### CSS Starterkit
 Includes: 
 * [the new CSS reset](https://elad2412.github.io/the-new-css-reset) 
@@ -77,6 +86,7 @@ The bootstrap kit is fully customizable to project needs, by just replacing libs
 Please check packages/lib/styles/global.scss for more infos.
 
 ### ToDo
+- [ ] Use whole project in Magnolia docker and do export and mvn build within container
 - [ ] Create translation strategy via page module tree (not all pages are being translated)
 - [ ] next/image Magnolia image renditions component 
 - [ ] If error occurs in useSWR the page needs to render the error page

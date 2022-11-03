@@ -4,8 +4,8 @@ FROM mhart/alpine-node:16.4.2 AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
-COPY packages/web/package.json  ./packages/web/package.json
-COPY packages/lib/package.json  ./packages/lib/package.json
+COPY packages/web/package.json ./packages/web/package.json
+COPY packages/lib/package.json ./packages/lib/package.json
 RUN npm ci --workspaces
 
 # Rebuild the source code only when needed
@@ -26,12 +26,13 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
-# COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/packages/web/next.config.js ./packages/web/next.config.js
 COPY --from=builder /app/packages/web/public ./packages/web/public
 COPY --from=builder --chown=nextjs:nodejs /app/packages/web/.next ./packages/web/.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/packages/web/package.json ./packages/web/package.json
+COPY --from=builder /app/packages/lib/package.json ./packages/lib/package.json
 COPY --from=builder /app/packages/web/.env ./packages/web/.env
 
 USER nextjs
